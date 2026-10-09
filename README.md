@@ -3,7 +3,7 @@
 # DVD: Dynamic Vector Decoding for Efficient MLLM-based Perception
 
 <p>
-  <strong><a href="https://scholar.google.com/citations?user=aoqtBAsAAAAJ&hl=en">Jinghua Hou</a><sup>1</sup></strong>
+  <strong><a href="https://almoonysl.github.io/">Jinghua Hou</a><sup>1</sup></strong>
   &nbsp;&nbsp;
   <strong><a href="https://happinesslz.github.io/">Zhe Liu</a><sup>1*</sup></strong>
   &nbsp;&nbsp;
