@@ -41,8 +41,8 @@ MLLM-based perception methods either encode coordinates as text — unlimited pr
 ## 🔥 Highlights
 
 - **Unified 2D + 3D perception:** One model, one checkpoint — 3D grounding, 2D grounding, and 2D referring expression segmentation (RES) all share the same representation.
-- **Unlimited range, high precision, few tokens:** Unlike fixed-range quantized tokens, DVD keeps raw (unnormalized) 3D coordinates, preserving the unbounded spatial range required for autonomous driving and robotics.
-- **Strong Performance:** DVD-2B reaches **40.0 / 15.7 / 19.8 AP3D@15** on SUN-RGBD / Hypersim / nuScenes, surpassing VST-3B by +2.7 AP3D on SUN-RGBD and +10.7 on ARKitScenes (62.4). DVD-2B outperforms specialized 2D grounding methods with **90.0% P@0.5 on RefCOCOg test** (+3.2 over Rex-Omni); DVD-8B reaches 75.4/70.1/73.4 cIoU on RefCOCO/+/g val for RES.
+- **Unlimited range, high precision, fewer tokens:** Unlike fixed-range quantized tokens, DVD keeps raw (unnormalized) 3D coordinates, preserving the unbounded spatial range required for autonomous driving and robotics.
+- **Strong Performance:** DVD-2B reaches 40.0 / 15.7 / 19.8 AP3D@15 on SUN-RGBD / Hypersim / nuScenes, surpassing VST-3B by +2.7 AP3D on SUN-RGBD and +10.7 on ARKitScenes (62.4). DVD-2B outperforms specialized 2D grounding methods with 90.0% P@0.5 on RefCOCOg test (+3.2 over Rex-Omni); DVD-8B reaches 75.4/70.1/73.4 cIoU on RefCOCO/+/g val for RES.
 - **Massive efficiency gains:** 8 tokens / 499 ms per 3D box vs. 74 tokens / 4165 ms for text-based representations (~9x fewer tokens, ~8x lower latency); 2 tokens vs. 15 for a 2D box; 64 vs. 512 for a mask.
 
 ## ✨ Abstract
@@ -75,13 +75,13 @@ A single trained DVD model is evaluated on all tasks. Metrics: AP3D@15 for 3D gr
 | **DVD-2B** | 40.0 | 15.7 | 19.8 | **93.5** | **87.7** | **89.9** | 69.9 | 64.2 | 70.4 |
 | **DVD-8B** | **40.3** | **18.4** | **24.4** | 93.0 | **87.7** | 88.7 | **75.4** | **70.1** | **73.4** |
 
-Detailed 3D grounding results (AP3D@15): DVD-2B achieves SUN-RGBD 40.0, Hypersim 15.7, **ARKitScenes 62.4**, **KITTI 31.4**, nuScenes 19.8; DVD-8B achieves 40.3 / 18.4 / 62.1 / 28.7 / 24.4, respectively. For reference, Gemini 2.0 Pro and Gemini 2.5 Pro score 32.5 and 29.7 on SUN-RGBD.
+Detailed 3D grounding results (AP3D@15): DVD-2B achieves SUN-RGBD 40.0, Hypersim 15.7, ARKitScenes 62.4, KITTI 31.4, nuScenes 19.8; DVD-8B achieves 40.3 / 18.4 / 62.1 / 28.7 / 24.4, respectively. For reference, Gemini 2.0 Pro and Gemini 2.5 Pro score 32.5 and 29.7 on SUN-RGBD.
 
 ## ⚙️ Setup
 
 The vector autoencoder is trained on ~1.98M 3D boxes, 2.31M 2D boxes, and 1.52M 2D masks (1:1:1 ratio), with learning rate 1e-3 for 24 epochs.
 
-The MLLM is built on **Qwen3-VL** (2B and 8B; SigLIP2 vision encoder + MLP projector + Qwen3 LLM), fully fine-tuned on 8x NVIDIA A100 GPUs with batch size 64, AdamW, and data packing (base learning rate 5e-5, vision encoder 5e-6) for 264K iterations on 2.0M mixed 2D/3D perception QA pairs:
+The MLLM is built on Qwen3-VL (2B and 8B and fully fine-tuned on 2.0M mixed 2D/3D perception QA pairs:
 
 - **3D grounding (489K QAs):** SUN-RGBD, Hypersim, ARKitScenes, Objectron, KITTI, nuScenes.
 - **2D grounding (810K QAs):** RefCOCO/+/g plus 2D projections of the six 3D datasets.
